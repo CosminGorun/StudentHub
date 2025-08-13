@@ -18,11 +18,16 @@ export class LoginComponent {
     curentType:number=0;
     validMail:boolean=false;
     validPhone:boolean=false;
-    actions:string[]=['login','createAccount'];
+    actions:string[]=['login','createAccount','recoverPassword'];
     action:number=0;
 
     validNewMail:boolean=false;
     validNewPhone:boolean=false;
+
+    confirmedIdentidy:boolean=false;
+    recoverMet:string='email';
+    mailsended:boolean=false;
+    phonesended:boolean=false;
 
     constructor(private userService:UserService,private router:Router){}
 
@@ -49,9 +54,6 @@ export class LoginComponent {
     validateNewPhone(){
         this.validNewPhone=true;
     }
-     swichAction(){
-        this.action=(this.action+1)%this.actions.length;
-     }
      login(){
         const testUser={
             username:"ion",

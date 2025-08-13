@@ -1,32 +1,140 @@
-.main-container{
-    width: 100%;
-    height: 100%;
+.main-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    background-color: #166a16;
+    align-items: center;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f0f2f5;
+    font-family: 'Arial', sans-serif;
 }
 
-.login-container{
-    border: 2px solid #000000;
-    background-color: #08500a;
-    border-radius: 10px;
+/* Container pentru login / create / recover */
+.login-container {
+    background-color: #ffffff;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 25%;
-    min-width: 300px;
-    aspect-ratio: 1/1.1;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 350px;
+    max-width: 90%;
+    text-align: center;
 }
-.login-container div{
-    display: flex;
-    flex-direction: column;
+
+/* Titluri și paragrafe */
+.login-container p {
+    margin: 12px 0 6px;
+    font-weight: 500;
+    color: #333;
 }
-.nav-container{
+
+/* Input-uri */
+.login-container input {
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: border 0.2s;
+}
+
+.login-container input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.3);
+}
+
+.login-container button {
+    width: 100%;
+    padding: 10px 15px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 6px;
+    background-color: #007bff;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.login-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Butoane secundare (navigation) */
+.nav-container {
     display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+}
+
+.nav-container button {
+    width: 48%;
+    background-color: #6c757d;
+}
+
+.nav-container button:hover {
+    background-color: #5a6268;
+}
+
+/* Input cod sau cod de validare */
+.login-container div input {
+    margin-bottom: 10px;
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+    .login-container {
+        padding: 20px;
+    }
+    .nav-container button {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+}
+.action-container{
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    gap: 120px;
+}
+.action-container button {
+    padding: 0;
+    margin-bottom: -15px;
+    /*margin-top: 30px;*/
+    background-color: transparent;
+    color: #39a1bc;
+    white-space: nowrap;
+
+}
+.action-container button:hover {
+    text-decoration: underline;
+    background-color: transparent;
+    font-size: 15px;
+}
+
+.login-container button.login-button {
+    padding: 0;
     margin-top: 20px;
-    justify-content: space-around;
-    flex-direction: column;
+    /*margin-bottom: 0px;*/
+    background-color: transparent;
+    color: #39a1bc;
+}
+.login-container button.login-button:hover {
+    text-decoration: underline;
+    background-color: transparent;
+    font-size: 15px;
+}
+.login-container button:disabled{
+    background-color: #6c757d;
+}
+.login-container p.error-message{
+    margin-top: 0;
+    padding: 0;
+    color:red;
+    text-decoration: underline;
+    font-size: 12px;
 }

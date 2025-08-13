@@ -7,11 +7,15 @@
 		<button (click)="login()">Login</button>
 		
 <!--            <a routerLink="/calendar">go to calendar</a>-->
+		<p>Connect with:</p>
 		<div class="nav-container">
-			<button (click)="nextType()">connect with mail code verification</button>
-			<button (click)="prevType()">connect with phone code verification</button>
+			<button (click)="nextType()">mail code verification</button>
+			<button (click)="prevType()">phone code verification</button>
 		</div>
-		<button (click)="swichAction()">Create account</button>
+		<div class="action-container">
+			<button (click)="action=2">Recover password</button>
+			<button (click)="action=1">Create account</button>
+		</div>
 	</div>
 	<div class="login-container" *ngIf="loginTypes[curentType]=='mail'">
 		<p>Mail:</p>
@@ -23,12 +27,16 @@
 			<button (click)="login()">Login</button>
 		</div>
 		<!--            <a routerLink="/calendar">go to calendar</a>-->
+		<p>Connect with:</p>
 		<div class="nav-container">
 			
-			<button (click)="nextType()">connect with phone code verification</button>
-			<button (click)="prevType()">connect with username and password</button>
+			<button (click)="nextType()">phone code verification</button>
+			<button (click)="prevType()">username and password</button>
 		</div>
-		<button (click)="swichAction()">Create account</button>
+		<div class="action-container">
+			<button (click)="action=2">Recover password</button>
+			<button (click)="action=1">Create account</button>
+		</div>
 	</div>
 	<div class="login-container" *ngIf="loginTypes[curentType]=='phone'">
 		<p>Phone number:</p>
@@ -41,42 +49,83 @@
 		</div>
 		
 		<!--            <a routerLink="/calendar">go to calendar</a>-->
+		<p>Connect with:</p>
 		<div class="nav-container">
-			<button (click)="nextType()">connect with username and password</button>
-			<button (click)="prevType()">connect with mail code verification</button>
+			<button (click)="nextType()">username and password</button>
+			<button (click)="prevType()">mail code verification</button>
 			
 		</div>
-		<button (click)="swichAction()">Create account</button>
+		<div class="action-container">
+			<button (click)="action=2">Recover password</button>
+			<button (click)="action=1">Create account</button>
+		</div>
 	</div>
 </div>
+
 <div *ngIf="actions[action]=='createAccount'" class="main-container">
-	
-	
 	<div class="login-container">
 		
 		<p>Username:</p>
 		<input type="text">
 		<p>Phone number:</p>
 		<input type="tel" inputmode="numeric">
-		<button *ngIf="!validNewPhone" (click)="validateNewPhone()">Validate phone number</button>
+		<button *ngIf="!validNewPhone" (click)="validateNewPhone()">Send code</button>
 		<div *ngIf="validNewPhone">
 			<p>Code</p>
 			<input type="text">
+			<button (click)="validateNewPhone()">Validate phone number</button>
 		</div>
 		<p>Email:</p>
 		<input type="email">
-		<button *ngIf="!validNewMail" (click)="validateNewEmail()">Validate email</button>
+		<button *ngIf="!validNewMail" (click)="validateNewEmail()">Send code</button>
 		<div *ngIf="validNewMail">
 			<p>Code</p>
 			<input type="text">
+			<button (click)="validateNewEmail()">Validate email</button>
 		</div>
 		<p>Password:</p>
 		<input type="password">
 		<p>Repet password:</p>
 		<input type="password">
-		<button *ngIf="validNewMail||validNewPhone" (click)="swichAction()">Create account</button>
-		<button (click)="swichAction()">login a existent account</button>
+		<button [disabled]="!validNewMail&&!validNewPhone" (click)="action=0" >Create account</button>
+		<p *ngIf="!validNewMail&&!validNewPhone" class="error-message">need to verifi one of phone or email for can create the account</p>
+		<button (click)="action=0" class="login-button">go to login page</button>
 	</div>
-	
+</div>
+
+<div *ngIf="actions[action]=='recoverPassword'" class="main-container">
+       <div *ngIf="!confirmedIdentidy" class="login-container">
+	       <div *ngIf="recoverMet=='email'">
+		       <p>Email:</p>
+		       <input type="text">
+		       <button (click)="mailsended=true">send code</button>
+		       <div *ngIf="mailsended">
+			       <p>Code:</p>
+			       <input type="text">
+			       <button (click)="confirmedIdentidy=true">continue</button>
+		       </div>
+		       <button (click)="recoverMet='phone'">use phone number</button>
+	       </div>
+	       <div *ngIf="recoverMet=='phone'">
+		       <p>Phone:</p>
+		       <input type="text">
+		       <button (click)="phonesended=true">send code</button>
+		       <div *ngIf="phonesended">
+			       <p>Code:</p>
+			       <input type="text">
+			       <button (click)="confirmedIdentidy=true">continue</button>
+		       </div>
+		       <button (click)="recoverMet='email'">use mail</button>
+	       </div>
+	       <button (click)="action=0" class="login-button">go to login page</button>
+       </div>
+	<div *ngIf="confirmedIdentidy" class="login-container">
+		<p>New password:</p>
+		<input type="password">
+		<p>Repet new password:</p>
+		<input type="password">
+		<button (click)="action=0">set</button>
+		<button (click)="action=0" class="login-button">go to login page</button>
+	</div>
 	
 </div>
