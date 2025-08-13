@@ -1,0 +1,82 @@
+<div *ngIf="actions[action]=='login'" class="main-container">
+	<div class="login-container" *ngIf="loginTypes[curentType]=='username'">
+		<p>Username:</p>
+		<input type="text" placeholder="username">
+		<p>Password:</p>
+		<input type="password" placeholder="password">
+		<button (click)="login()">Login</button>
+		
+<!--            <a routerLink="/calendar">go to calendar</a>-->
+		<div class="nav-container">
+			<button (click)="nextType()">connect with mail code verification</button>
+			<button (click)="prevType()">connect with phone code verification</button>
+		</div>
+		<button (click)="swichAction()">Create account</button>
+	</div>
+	<div class="login-container" *ngIf="loginTypes[curentType]=='mail'">
+		<p>Mail:</p>
+		<input type="text" placeholder="mail">
+		<button *ngIf="!validMail" (click)="validateEmail()">Send code</button>
+		<div *ngIf="validMail">
+			<p>Code:</p>
+			<input type="password" placeholder="code">
+			<button (click)="login()">Login</button>
+		</div>
+		<!--            <a routerLink="/calendar">go to calendar</a>-->
+		<div class="nav-container">
+			
+			<button (click)="nextType()">connect with phone code verification</button>
+			<button (click)="prevType()">connect with username and password</button>
+		</div>
+		<button (click)="swichAction()">Create account</button>
+	</div>
+	<div class="login-container" *ngIf="loginTypes[curentType]=='phone'">
+		<p>Phone number:</p>
+		<input type="tel" placeholder="username">
+		<button *ngIf="!validPhone" (click)="validatePhone()">Send code</button>
+		<div *ngIf="validPhone">
+			<p>Code:</p>
+			<input type="password" placeholder="code">
+			<button (click)="login()">Login</button>
+		</div>
+		
+		<!--            <a routerLink="/calendar">go to calendar</a>-->
+		<div class="nav-container">
+			<button (click)="nextType()">connect with username and password</button>
+			<button (click)="prevType()">connect with mail code verification</button>
+			
+		</div>
+		<button (click)="swichAction()">Create account</button>
+	</div>
+</div>
+<div *ngIf="actions[action]=='createAccount'" class="main-container">
+	
+	
+	<div class="login-container">
+		
+		<p>Username:</p>
+		<input type="text">
+		<p>Phone number:</p>
+		<input type="tel" inputmode="numeric">
+		<button *ngIf="!validNewPhone" (click)="validateNewPhone()">Validate phone number</button>
+		<div *ngIf="validNewPhone">
+			<p>Code</p>
+			<input type="text">
+		</div>
+		<p>Email:</p>
+		<input type="email">
+		<button *ngIf="!validNewMail" (click)="validateNewEmail()">Validate email</button>
+		<div *ngIf="validNewMail">
+			<p>Code</p>
+			<input type="text">
+		</div>
+		<p>Password:</p>
+		<input type="password">
+		<p>Repet password:</p>
+		<input type="password">
+		<button *ngIf="validNewMail||validNewPhone" (click)="swichAction()">Create account</button>
+		<button (click)="swichAction()">login a existent account</button>
+	</div>
+	
+	
+</div>
