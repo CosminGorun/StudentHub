@@ -76,19 +76,21 @@
 			<button (click)="validateNewPhone()">Validate phone number</button>
 		</div>
 		<p>Email:</p>
-		<input type="email">
-		<button *ngIf="!validNewMail" (click)="validateNewEmail()">Send code</button>
-		<div *ngIf="validNewMail">
+		<input [(ngModel)]="createAccountMail" type="email">
+		<button *ngIf="!showSendCodeNewMail" (click)="sendValidationEmailCode()">Send code</button>
+		<div *ngIf="showSendCodeNewMail">
 			<p>Code</p>
-			<input type="text">
-			<button (click)="validateNewEmail()">Validate email</button>
+			<input [(ngModel)]="createAccountMailCode" type="text">
+			<button (click)="sendVerificationCode()">Validate email</button>
+			
 		</div>
+		<p>{{mailValMess}}</p>
 		<p>Password:</p>
 		<input type="password">
 		<p>Repet password:</p>
 		<input type="password">
 		<button [disabled]="!validNewMail&&!validNewPhone" (click)="action=0" >Create account</button>
-		<p *ngIf="!validNewMail&&!validNewPhone" class="error-message">need to verifi one of phone or email for can create the account</p>
+		<p *ngIf="!validNewMail&&!validNewPhone" class="error-message">need to verifie one of phone or email for can create the account</p>
 		<button (click)="action=0" class="login-button">go to login page</button>
 	</div>
 </div>

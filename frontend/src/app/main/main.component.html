@@ -1,2 +1,6 @@
 <p>main works!</p>
-{{user.username}}
+<!--{{user?.username}}-->
+
+<div *ngFor="let u of users">
+	{{u.username}}
+</div>
