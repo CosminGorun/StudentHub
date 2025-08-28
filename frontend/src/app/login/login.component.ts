@@ -5,6 +5,7 @@ import {UserService} from "../service/user.service";
 import {ApiService} from "../service/ApiService";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
+import {EMPTY, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-login',
@@ -41,8 +42,19 @@ export class LoginComponent {
     mailValMess:string='';
     validNewMail:boolean=false;
 
+    password:string='';
+    repassword:string='';
+
+    username:string='';
+    validNewUsername:boolean=true;
+
+    mailAllredyExists:boolean=false;
 
     test:string='';
+
+    loginUsername:string='';
+    loginPassword:string='';
+    wrontLogin:boolean=false;
     constructor(private userService:UserService,private router:Router,private apiService:ApiService){}
 
 
@@ -68,31 +80,34 @@ export class LoginComponent {
     validateNewPhone(){
         this.validNewPhone=true;
     }
-     login(){
-        const testUser={
-            username:"ion",
-            role:"admin"
-        }
-        this.userService.setUserData(testUser);
-        this.router.navigate(['main']);
-     }
     regex= /[0-9a-zA-Z]+@[a-zA-z]+.[a-z]+/;
     sendValidationEmailCode() {
-        if(!this.regex.test(this.createAccountMail)){
-            this.mailValMess="the curent email is invalid";
+        if (!this.regex.test(this.createAccountMail)) {
+            this.mailValMess = "The current email is invalid";
             return;
         }
-        this.apiService.sendEmailValidationCode(this.createAccountMail)
-            .subscribe({
-                next: (response) => {
-                    console.log('Email trimis cu succes', response);
-                    this.showSendCodeNewMail = true;
-                },
-                error: (err) => {
-                    console.error('Eroare la trimiterea email-ului', err);
+
+        this.apiService.verifyExistenMail(this.createAccountMail).pipe(
+            switchMap((exists: boolean) => {
+                if (exists) {
+                    this.mailAllredyExists = true;
+                    return EMPTY;
+                } else {
+                    this.mailAllredyExists = false;
+                    return this.apiService.sendEmailValidationCode(this.createAccountMail);
                 }
-            });
+            })
+        ).subscribe({
+            next: (response) => {
+                console.log('Email trimis cu succes', response);
+                this.showSendCodeNewMail = true;
+            },
+            error: (err) => {
+                console.error('Eroare la trimiterea email-ului', err);
+            }
+        });
     }
+
     sendVerificationCode(){
         if(!this.regex.test(this.createAccountMail)){
             this.mailValMess="the curent email is invalid";
@@ -119,6 +134,50 @@ export class LoginComponent {
                 }
             })
     }
-
+    createUser(){
+        this.apiService.saveUser(this.username,this.createAccountMail,this.password)
+            .subscribe({
+                next: (response) => {
+                        if(response==true){
+                            this.action=0;
+                        }else{
+                            this.mailValMess="erroare la creeere"
+                        }
+                },
+                error: (err) => {
+                    console.error('Eroare la trimiterea email-ului', err);
+                }
+            })
+    }
+    loginWithUsername(){
+        this.apiService.loginWithUsername(this.loginUsername,this.loginPassword)
+            .subscribe({
+                next: (response) => {
+                    if(response!=null){
+                        const user={
+                            id:response.id,
+                            username:response.username,
+                            phone:response.phone,
+                            email:response.email
+                        }
+                        this.userService.setUserData(user);
+                        this.router.navigate(['/main']);
+                    }else{
+                          this.wrontLogin = true;
+                    }
+                },
+                error: (err) => {
+                    console.error('Eroare la trimiterea email-ului', err);
+                }
+            })
+    }
+    login(){
+           const testUser={
+               username:"ion",
+               role:"admin"
+           }
+           this.userService.setUserData(testUser);
+           this.router.navigate(['main']);
+        }
 }
 

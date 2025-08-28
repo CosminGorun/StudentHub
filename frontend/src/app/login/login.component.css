@@ -132,3 +132,26 @@
     text-decoration: underline;
     font-size: 12px;
 }
+.warning-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(89, 76, 76, 0.5); /* roșu semi-transparent */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.warning-box {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    color: #d32f2f; /* roșu text */
+    padding: 20px 30px;
+    border-radius: 10px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}

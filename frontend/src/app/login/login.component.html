@@ -1,10 +1,11 @@
 <div *ngIf="actions[action]=='login'" class="main-container">
 	<div class="login-container" *ngIf="loginTypes[curentType]=='username'">
 		<p>Username:</p>
-		<input type="text" placeholder="username">
+		<input type="text" placeholder="username" [(ngModel)]="loginUsername">
 		<p>Password:</p>
-		<input type="password" placeholder="password">
-		<button (click)="login()">Login</button>
+		<input type="password" placeholder="password" [(ngModel)]="loginPassword">
+		<p *ngIf="wrontLogin" class="error-message">Username or password are wrong</p>
+		<button (click)="loginWithUsername()">Login</button>
 		
 <!--            <a routerLink="/calendar">go to calendar</a>-->
 		<p>Connect with:</p>
@@ -66,7 +67,11 @@
 	<div class="login-container">
 		
 		<p>Username:</p>
-		<input type="text">
+		<input type="text" [(ngModel)]="username">
+		<p *ngIf="username.length==0" class="error-message">username can't be null</p>
+		<p *ngIf="username.length!=0&&(username.length<6||username.length>20)" class="error-message">username need to have 6 to 20 caracters</p>
+		<p *ngIf="!validNewUsername" class="error-message">This username are taken</p>
+		
 		<p>Phone number:</p>
 		<input type="tel" inputmode="numeric">
 		<button *ngIf="!validNewPhone" (click)="validateNewPhone()">Send code</button>
@@ -86,15 +91,30 @@
 		</div>
 		<p>{{mailValMess}}</p>
 		<p>Password:</p>
-		<input type="password">
+		<input type="password" [(ngModel)]="password">
+		<p *ngIf="password.length==0" class="error-message">The password can't be null!</p>
+		<p *ngIf="password.length>0&&password.length<8 || password.length>12" class="error-message">The password lenght need to be betwen 8 and 12!</p>
+		
 		<p>Repet password:</p>
-		<input type="password">
-		<button [disabled]="!validNewMail&&!validNewPhone" (click)="action=0" >Create account</button>
+		<input type="password" [(ngModel)]="repassword">
+		<p *ngIf="repassword.length==0" class="error-message">The password can't be null!</p>
+		<p *ngIf="repassword.length>0&&password!=repassword" class="error-message">The passwords don't match</p>
+		
+		<button [disabled]="!(validNewMail||validNewPhone)||(password.length<8||password.length>12)||!(password==repassword)" (click)="createUser()" >Create account</button>
+		
 		<p *ngIf="!validNewMail&&!validNewPhone" class="error-message">need to verifie one of phone or email for can create the account</p>
+		<p *ngIf="password.length>0&&password!=repassword" class="error-message">the password need to match</p>
+		<p *ngIf="password.length==0" class="error-message">the password can't be null</p>
 		<button (click)="action=0" class="login-button">go to login page</button>
 	</div>
 </div>
-
+<div class="warning-overlay" *ngIf="mailAllredyExists">
+	<div class="warning-box">
+		mailul exista
+		<button (click)="action=2;mailAllredyExists=false ">go to recover password</button>
+		<button (click)="mailAllredyExists=false">continue woth another mail</button>
+	</div>
+</div>
 <div *ngIf="actions[action]=='recoverPassword'" class="main-container">
        <div *ngIf="!confirmedIdentidy" class="login-container">
 	       <div *ngIf="recoverMet=='email'">

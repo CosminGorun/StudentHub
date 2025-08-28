@@ -27,4 +27,19 @@ export class ApiService{
         }
         return this.http.post(`${this.apiUrl}/mail/validateCode`,body);
     }
+
+    verifyExistenMail(email:string):Observable<any>{
+        return this.http.get(`${this.apiUrl}/users/existMail?email=${email}`);
+    }
+    saveUser(username:string,email:string,password:string):Observable<any>{
+        const user={
+            username:username,
+            email:email,
+            phone:'',
+            password:password};
+        return this.http.post(`${this.apiUrl}/users/save`,user);
+    }
+    loginWithUsername(username:string,password:string):Observable<any>{
+        return this.http.get(`${this.apiUrl}/users/loginWithUsername?username=${username}&password=${password}`);
+    }
 }

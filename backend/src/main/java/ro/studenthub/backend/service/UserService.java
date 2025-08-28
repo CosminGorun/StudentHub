@@ -15,8 +15,14 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User save(User user){
-        return userRepository.save(user);
+    public boolean save(User user){
+        try{
+            userRepository.save(user);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
     }
     public List<UserDTO> findAllUsers(){
 
@@ -30,5 +36,21 @@ public class UserService {
     public User findByUsername(String username){return userRepository.findByUsername(username).orElse(null);}
     public User createUser(User user){
         return userRepository.save(user);
+    }
+    public boolean findByEmail(String email){
+        return !userRepository.findByEmail(email).isEmpty();
+    }
+    public UserDTO loginWithUsername(String username, String password){
+        try {
+            User user = findByUsername(username);
+            if(user==null){return null;}
+            if (user.getPassword().equals(password)) {
+                return user.toDTO();
+            }
+            return null;
+        }
+        catch(Exception e){
+            return null;
+        }
     }
 }

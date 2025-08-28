@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public User saveUser(@RequestBody User user) {
+    public boolean saveUser(@RequestBody User user) {
         return userService.save(user);
     }
 
@@ -62,4 +62,12 @@ public class UserController {
         return "User creation failed";
     }
 
+    @GetMapping("/existMail")
+    public boolean existMail(@RequestParam("email") String email) {
+        return userService.findByEmail(email);
+    }
+    @GetMapping("/loginWithUsername")
+    public UserDTO loginWithUsername(@RequestParam("username") String username, @RequestParam("password") String password) {
+        return userService.loginWithUsername(username, password);
+    }
 }

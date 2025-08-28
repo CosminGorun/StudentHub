@@ -22,10 +22,6 @@ export class MainComponent implements OnInit {
    }
 
     ngOnInit() {
-        this.apiService.getAllUsers().subscribe({
-            next: (data: any) => this.users = data,
-            error: (err:any) => console.error('Eroare la preluarea utilizatorilor', err)
-        });
        this.user=this.userService.getUserData();
     }
 }
