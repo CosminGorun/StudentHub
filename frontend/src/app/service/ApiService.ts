@@ -42,4 +42,8 @@ export class ApiService{
     loginWithUsername(username:string,password:string):Observable<any>{
         return this.http.get(`${this.apiUrl}/users/loginWithUsername?username=${username}&password=${password}`);
     }
+
+    sendPromptToAi(prompt:string):Observable<any>{
+        return this.http.get(`${this.apiUrl}/AI/getList?prompt=${prompt}`);
+    }
 }

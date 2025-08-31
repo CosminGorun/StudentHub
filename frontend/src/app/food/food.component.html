@@ -1,0 +1,25 @@
+<body>
+<header>
+	<nav>
+		<a routerLink="/main">main</a>
+	</nav>
+</header>
+<main>
+      <H1>Hello!!</H1>
+	<h2>what ingredients you have in the house?</h2>
+	<input type="text" [(ngModel)]="prompt" >
+	<button (click)="sendPrompt()">send</button>
+	<div *ngIf="list?.validList==true">
+		<div *ngFor="let ingredient of list.ingredients">
+			<p>{{ ingredient.name }} - {{ ingredient.quantity }} {{ ingredient.unit }}</p>
+		</div>
+	</div>
+	
+	<div *ngIf="list?.validList==false">
+		<p>The API doesn't work!</p>
+		<p>{{ list?.errorText }}</p>
+	</div>
+
+
+</main>
+</body>
