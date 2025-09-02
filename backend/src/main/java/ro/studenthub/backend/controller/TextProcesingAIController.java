@@ -31,6 +31,8 @@ public class TextProcesingAIController {
             "errorText: (if the list is not valid, otherwise null),"
             "ingredients: [list of ingredients with name, quantity, and unit; if quantity is not specified, set quantity to 0 and unit to null]}
         """;
+
+
     @GetMapping("/getList")
     public ResponseEntity<String> getTheListOfIngredients(@RequestParam("prompt") String userMessage) throws IOException, InterruptedException {
         JSONObject payload = new JSONObject();

@@ -3,8 +3,9 @@
 	<nav>
 		<a routerLink="/main">main</a>
 	</nav>
+	<button (click)="myRecipes=!myRecipes">change page</button>
 </header>
-<main>
+<main *ngIf="myRecipes">
       <H1>Hello!!</H1>
 	<h2>what ingredients you have in the house?</h2>
 	<input type="text" [(ngModel)]="prompt" >
@@ -19,7 +20,36 @@
 		<p>The API doesn't work!</p>
 		<p>{{ list?.errorText }}</p>
 	</div>
+</main>
 
-
+<main *ngIf="!myRecipes">
+	
+	<div class="search-container">
+		<p> would you like to cook?</p>
+		<input type="text" [(ngModel)]="searchText">
+		<button (click)="searchRecipes()"> Search</button>
+	</div>
+	<div class="recipes-container" *ngIf="!searchRecipe">
+		<div *ngFor="let result of popularRecipe?.results" class="recipe-container">
+			<p>{{result.title}}</p>
+			<img [src]="result.image" alt="{{result.title}}">
+			<div class="summary" [innerHTML]="result.summary"></div>
+			<div class="diets">
+				<span *ngFor="let diet of result.diets" class="diet">{{diet}}</span>
+			</div>
+			<div class="score">Score: {{result.spoonacularScore}}</div>
+		</div>
+	</div>
+	<div class="recipes-container" *ngIf="searchRecipe">
+		<div *ngFor="let result of searchedRecipes?.results" class="recipe-container">
+			<p>{{result.title}}</p>
+			<img [src]="result.image" alt="{{result.title}}">
+			<div class="summary" [innerHTML]="result.summary"></div>
+			<div class="diets">
+				<span *ngFor="let diet of result.diets" class="diet">{{diet}}</span>
+			</div>
+			<div class="score">Score: {{result.spoonacularScore}}</div>
+		</div>
+	</div>
 </main>
 </body>

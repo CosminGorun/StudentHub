@@ -46,4 +46,11 @@ export class ApiService{
     sendPromptToAi(prompt:string):Observable<any>{
         return this.http.get(`${this.apiUrl}/AI/getList?prompt=${prompt}`);
     }
+
+    getPopularRecipe():Observable<any>{
+        return this.http.get(`${this.apiUrl}/spoonacular/getPopularRecipes`);
+    }
+    getRecipesByTitle(title:string):Observable<any>{
+        return this.http.get(`${this.apiUrl}/spoonacular/getSearchRecipes?text=${title}`);
+    }
 }
